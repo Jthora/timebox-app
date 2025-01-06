@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
+import styles from '../styles/App.module.css'; // Import the CSS module
 
 interface TimeBoxProps {
   id: string; // Unique ID for each draggable box
@@ -11,6 +12,7 @@ interface TimeBoxProps {
 const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time, onClick }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
+  const [isDragging, setIsDragging] = useState(false);
 
   const style = {
     transform: transform
@@ -25,15 +27,32 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time, onClick }) => {
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
+  const handleMouseDown = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    if (!isDragging) {
+      onClick();
+    }
+  };
+
+  const handleDragStart = () => {
+    setIsDragging(true);
+  };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       {...listeners}
       {...attributes}
-      className="time-box"
+      className={styles['time-box']} // Use the CSS module class
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onDragStart={handleDragStart}
     >
-      <button onClick={onClick}>
+      <button>
         <h2>{label}</h2>
         <p>{formatTime(time)}</p> {/* Display the time */}
       </button>

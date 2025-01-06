@@ -2,12 +2,12 @@
 
 /* HomePage styles */
 .home-page {
-  font-family: 'Roboto', sans-serif;
+  font-family: var(--font-secondary);
   background-color: var(--background-color);
   color: var(--text-color);
   padding: 20px;
   height: 100%;
-  width: 100%; /* Add this line */
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -17,12 +17,12 @@ header {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 800px;
   margin-bottom: 20px;
 }
 
 header h1 {
   font-size: 2rem;
+  font-family: var(--font-primary);
 }
 
 header button {
@@ -33,6 +33,8 @@ header button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
+  font-size: 0.5em;
+  font-family: var(--font-primary);
 }
 
 header button:hover {
@@ -45,24 +47,28 @@ header button:hover {
   justify-content: space-between;
   width: 100%;
   height: 100%;
-  max-width: 1200px;
+}
+
+.time-boxes, .timer-display, .timer-log-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .time-boxes {
-  display: flex;
-  flex-direction: column;
   gap: 10px;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  flex: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .time-box {
   background-color: #1c3f3f;
   color: var(--primary-color);
-  width: 150px;
-  height: 100px;
+  width: 250px;
+  height: 150px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -84,7 +90,7 @@ header button:hover {
 }
 
 .time-box.active {
-  border: 2px solid var(--neon-purple); /* Highlight active timer */
+  border: 2px solid var(--accent-color); /* Highlight active timer */
 }
 
 .time-box button {
@@ -93,8 +99,9 @@ header button:hover {
   background-color: transparent;
   color: inherit;
   border: none;
-  font-size: 1.5rem;
   cursor: pointer;
+  font-size: 0.5em; /* Adjust font size */
+  line-height: 50%;
 }
 
 .time-box button:hover {
@@ -105,10 +112,16 @@ header button:hover {
   margin-top: 20px;
   text-align: center;
   flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .timer-display h1 {
   font-size: 5rem;
+  color: var(--primary-color);
+  font-family: var(--font-primary);
 }
 
 .timer-display button {
@@ -120,6 +133,7 @@ header button:hover {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, box-shadow 0.3s;
+  font-size: 0.75em;
 }
 
 .timer-display button:disabled {
@@ -141,17 +155,38 @@ header button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.timer-log-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-content: flex-end;
+  align-items: flex-end;
+}
+
+.timer-log-sub-container {
+  width: 50%; /* Make it half width */
+  height: 100%;
+  font-size: 0.25em; /* Reduce font size by 1/3 */
+  justify-content: flex-end;
+  align-content: flex-end;
+  align-items: flex-end;
+}
+
 .timer-log {
-  max-height: 200px;
   overflow-y: auto;
   background-color: #1c3f3f;
+  align-self: right;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%; /* Ensure it takes full width */
+  height: 100%; /* Ensure it takes full height */
 }
 
 .timer-log h3 {
   margin-top: 0;
+  font-family: var(--font-primary);
 }
 
 .timer-log ul {

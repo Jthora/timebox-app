@@ -11,9 +11,9 @@ import {
 } from "@dnd-kit/sortable";
 import TimerLog from "../components/TimerLog";
 import TimerDisplay from "../components/TimerDisplay";
-import EditMode from "../components/EditMode";
 import TimeBox from "../components/TimeBox";
 import { saveToLocalStorage, loadFromLocalStorage } from "../utils/storage";
+import { useNavigate } from "react-router-dom";
 import styles from '../styles/App.module.css'; // Import the CSS module
 
 interface TimeBlock {
@@ -22,19 +22,17 @@ interface TimeBlock {
   time: number;
 }
 
-const HomePage: React.FC = () => {
-  const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>(
-    loadFromLocalStorage("timeBlocks", [
-      { id: "1", label: "15 mins", time: 900 },
-      { id: "2", label: "30 mins", time: 1800 },
-    ])
-  );
+interface HomePageProps {
+  timeBlocks: TimeBlock[];
+  setTimeBlocks: (blocks: TimeBlock[]) => void;
+}
 
+const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
   const [logs, setLogs] = useState<string[]>(
     loadFromLocalStorage("logs", [])
   );
   const [currentTimer, setCurrentTimer] = useState<TimeBlock | null>(null);
-  const [isEditMode, setIsEditMode] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     saveToLocalStorage("timeBlocks", timeBlocks);
@@ -51,7 +49,8 @@ const HomePage: React.FC = () => {
       const oldIndex = timeBlocks.findIndex((item) => item.id === active.id);
       const newIndex = timeBlocks.findIndex((item) => item.id === over?.id);
 
-      setTimeBlocks((items) => arrayMove(items, oldIndex, newIndex));
+      const newTimeBlocks = arrayMove(timeBlocks, oldIndex, newIndex);
+      setTimeBlocks(newTimeBlocks);
     }
   };
 
@@ -68,41 +67,43 @@ const HomePage: React.FC = () => {
   return (
     <div className={styles['home-page']}>
       <header>
-        <h1>Timebox App</h1>
-        <button onClick={() => setIsEditMode(!isEditMode)}>
-          {isEditMode ? "Exit Edit Mode" : "Enter Edit Mode"}
-        </button>
+        <h1>Timebox Control</h1>
+        <button onClick={() => navigate("/settings")}>Settings</button>
       </header>
       <div className={styles['content']}>
         <div className={styles['time-boxes']}>
-          <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
             <SortableContext
-              items={timeBlocks.map((item) => item.id)}
+              items={timeBlocks}
               strategy={verticalListSortingStrategy}
             >
-              {timeBlocks.map((block) => (
+              {timeBlocks.map((timeBlock) => (
                 <TimeBox
-                  key={block.id}
-                  {...block}
-                  onClick={() => !isEditMode && setCurrentTimer(block)}
+                  key={timeBlock.id}
+                  id={timeBlock.id}
+                  label={timeBlock.label}
+                  time={timeBlock.time}
+                  onClick={() => setCurrentTimer(timeBlock)}
                 />
               ))}
             </SortableContext>
           </DndContext>
-          {isEditMode && (
-            <EditMode timeBlocks={timeBlocks} setTimeBlocks={setTimeBlocks} />
-          )}
         </div>
         <div className={styles['timer-display']}>
-          {currentTimer && (
-            <TimerDisplay
-              initialTime={currentTimer.time}
-              onComplete={handleTimerComplete}
-            />
-          )}
+          <TimerDisplay
+            initialTime={currentTimer ? currentTimer.time : 0}
+            onComplete={handleTimerComplete}
+          />
         </div>
-        <div className={styles['timer-controls']}>
-          <TimerLog logs={logs} />
+        <div className={styles['timer-log-container']}>
+          <div className={styles['timer-log-sub-container']}>
+            <div className={styles['timer-log']}>
+              <TimerLog logs={logs} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

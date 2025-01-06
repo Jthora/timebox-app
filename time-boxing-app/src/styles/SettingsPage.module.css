@@ -1,0 +1,99 @@
+.settings-page {
+  font-family: var(--font-secondary);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  height: 100vh;
+}
+
+.settings-page h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.settings-page .left-panel,
+.settings-page .right-panel {
+  flex: 1;
+  padding: 20px;
+}
+
+.settings-page .left-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.settings-page .right-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.settings-page ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  max-width: 600px;
+}
+
+.settings-page li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #1c3f3f;
+  color: var(--primary-color);
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.settings-page li span {
+  flex-grow: 1;
+}
+
+.settings-page li button {
+  background-color: #285757;
+  color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.settings-page li button:hover {
+  background-color: #1c3f3f;
+  box-shadow: var(--hover-glow);
+}
+
+.settings-page input {
+  margin-bottom: 10px;
+  padding: 15px; /* Increased padding */
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1.25rem; /* Increased font size */
+}
+
+.settings-page button {
+  background-color: #1c3f3f;
+  color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  padding: 15px 30px; /* Increased padding */
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  margin: 5px;
+  font-size: 1.25rem; /* Increased font size */
+}
+
+.settings-page button:hover {
+  background-color: #285757;
+  box-shadow: var(--hover-glow);
+}
