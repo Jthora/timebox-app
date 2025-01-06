@@ -1,0 +1,31 @@
+.
+├── README.md
+├── directory-structure.txt
+├── eslint.config.js
+├── index.html
+├── package-lock.json
+├── package.json
+├── public
+│   └── vite.svg
+├── src
+│   ├── App.module.css
+│   ├── App.tsx
+│   ├── assets
+│   │   └── react.svg
+│   ├── components
+│   │   ├── EditMode.tsx
+│   │   ├── TimeBox.tsx
+│   │   ├── TimerDisplay.tsx
+│   │   └── TimerLog.tsx
+│   ├── index.css
+│   ├── main.tsx
+│   ├── utils
+│   │   ├── audioManager.ts
+│   │   └── timeFormatter.ts
+│   └── vite-env.d.ts
+├── tsconfig.app.json
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
+
+6 directories, 23 files
