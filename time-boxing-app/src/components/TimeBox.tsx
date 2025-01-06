@@ -6,9 +6,10 @@ interface TimeBoxProps {
   id: string; // Unique ID for each draggable box
   time: number; // Time in seconds
   onClick: () => void; // Click handler for the time block
+  isDragEnabled: boolean; // Prop to determine if dragging is enabled
 }
 
-const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick }) => {
+const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const [isDragging, setIsDragging] = useState(false);
@@ -50,7 +51,7 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick }) => {
     <div
       ref={setNodeRef}
       style={style}
-      {...listeners}
+      {...(isDragEnabled ? listeners : {})} // Apply listeners only if dragging is enabled
       {...attributes}
       className={styles['time-box']} // Use the CSS module class
       onMouseDown={handleMouseDown}

@@ -32,6 +32,7 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
     loadFromLocalStorage("logs", [])
   );
   const [currentTimer, setCurrentTimer] = useState<TimeBlock | null>(null);
+  const [isDragEnabled, setIsDragEnabled] = useState(true); // State to toggle drag-and-drop
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +44,8 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
   }, [logs]);
 
   const handleDragEnd = (event: DragEndEvent) => {
+    if (!isDragEnabled) return; // Prevent drag-and-drop if disabled
+
     const { active, over } = event;
 
     if (active.id !== over?.id) {
@@ -68,13 +71,19 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
     <div className={styles['home-page']}>
       <header>
         <h1>Timebox Control</h1>
-        <button onClick={() => navigate("/settings")}>Settings</button>
+        <div className={styles['button-container']}>
+          <button className={styles['lock-button']} onClick={() => setIsDragEnabled(!isDragEnabled)}>
+            {isDragEnabled ? "Lock" : "Unlock"}
+          </button>
+          <button className={styles['settings-button']} onClick={() => navigate("/settings")}>Settings</button>
+        </div>
       </header>
       <div className={styles['content']}>
         <div className={styles['time-boxes']}>
           <DndContext
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
+            sensors={isDragEnabled ? undefined : []} // Disable sensors if drag-and-drop is disabled
           >
             <SortableContext
               items={timeBlocks}
@@ -86,6 +95,7 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
                   id={timeBlock.id}
                   time={timeBlock.time}
                   onClick={() => setCurrentTimer(timeBlock)}
+                  isDragEnabled={isDragEnabled} // Pass the isDragEnabled prop
                 />
               ))}
             </SortableContext>
