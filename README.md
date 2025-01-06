@@ -22,7 +22,7 @@ To install and run the Timebox App locally, follow these steps:
 ## Usage
 To start the application, run:
 ```bash
-npm start
+npm run dev
 ```
 Open your browser and navigate to `http://localhost:3000` to use the Timebox App.
 
