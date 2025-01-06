@@ -8,11 +8,11 @@ To install and run the Timebox App locally, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/timebox-app.git
+    git clone https://github.com/jthora/timebox-app.git
     ```
 2. Navigate to the project directory:
     ```bash
-    cd timebox-app
+    cd timebox-app/time-boxing-app
     ```
 3. Install the dependencies:
     ```bash
@@ -22,27 +22,7 @@ To install and run the Timebox App locally, follow these steps:
 ## Usage
 To start the application, run:
 ```bash
-npm start
+npm run dev
 ```
-Open your browser and navigate to `http://localhost:3000` to use the Timebox App.
+Open your browser and navigate to `http://localhost:5173` to use the Timebox App.
 
-## Contributing
-We welcome contributions to the Timebox App! To contribute, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch:
-    ```bash
-    git checkout -b feature-branch
-    ```
-3. Make your changes and commit them:
-    ```bash
-    git commit -m "Description of changes"
-    ```
-4. Push to the branch:
-    ```bash
-    git push origin feature-branch
-    ```
-5. Open a pull request on GitHub.
-
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
