@@ -12,7 +12,7 @@ To install and run the Timebox App locally, follow these steps:
     ```
 2. Navigate to the project directory:
     ```bash
-    cd timebox-app
+    cd timebox-app/time-boxing-app
     ```
 3. Install the dependencies:
     ```bash
