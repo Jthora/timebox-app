@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 interface TimeBlock {
+  id: string; // Unique ID for each time block
   time: number; // Time in seconds
   label: string; // Label for the block
 }
@@ -21,7 +22,7 @@ const EditMode: React.FC<EditModeProps> = ({ timeBlocks, setTimeBlocks }) => {
     }
     setTimeBlocks([
       ...timeBlocks,
-      { time: parsedTime * 60, label: `${parsedTime} mins` },
+      { id: `${Date.now()}`, time: parsedTime * 60, label: `${parsedTime} mins` },
     ]);
     setNewTime("");
   };
@@ -34,7 +35,7 @@ const EditMode: React.FC<EditModeProps> = ({ timeBlocks, setTimeBlocks }) => {
     <div className="edit-mode">
       <ul>
         {timeBlocks.map((block, index) => (
-          <li key={index}>
+          <li key={block.id}>
             <span>{block.label}</span>
             <button onClick={() => deleteBlock(index)}>Delete</button>
           </li>

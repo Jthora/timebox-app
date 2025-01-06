@@ -1,0 +1,10 @@
+:root {
+  --background-color: #0a0f1f;
+  --primary-color: #a6ffec;
+  --neon-green: #39ff14;
+  --neon-purple: #b300ff;
+  --neon-blue: #00d4ff;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --hover-glow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green);
+  --active-glow: 0 0 20px var(--neon-purple), 0 0 30px var(--neon-purple);
+}

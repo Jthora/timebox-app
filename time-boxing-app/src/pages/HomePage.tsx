@@ -6,48 +6,21 @@ import {
 } from "@dnd-kit/core";
 import {
   SortableContext,
-  useSortable,
   arrayMove,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import TimerLog from "../components/TimerLog";
 import TimerDisplay from "../components/TimerDisplay";
+import EditMode from "../components/EditMode";
+import TimeBox from "../components/TimeBox";
 import { saveToLocalStorage, loadFromLocalStorage } from "../utils/storage";
+import styles from '../styles/App.module.css'; // Import the CSS module
 
 interface TimeBlock {
   id: string;
   label: string;
   time: number;
 }
-
-interface TimeBlockWithClick extends TimeBlock {
-  onClick: () => void;
-}
-
-const SortableTimeBox: React.FC<TimeBlockWithClick> = ({ id, label, onClick }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
-
-  const style = {
-    transform: transform
-      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      : undefined,
-    transition,
-  };
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...listeners}
-      {...attributes}
-      className="time-box"
-      onClick={onClick}
-    >
-      {label}
-    </div>
-  );
-};
 
 const HomePage: React.FC = () => {
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>(
@@ -61,6 +34,7 @@ const HomePage: React.FC = () => {
     loadFromLocalStorage("logs", [])
   );
   const [currentTimer, setCurrentTimer] = useState<TimeBlock | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     saveToLocalStorage("timeBlocks", timeBlocks);
@@ -92,30 +66,45 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div>
-      <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-        <SortableContext
-          items={timeBlocks.map((item) => item.id)}
-          strategy={verticalListSortingStrategy}
-        >
-          <div className="time-boxes">
-            {timeBlocks.map((block) => (
-              <SortableTimeBox
-                key={block.id}
-                {...block}
-                onClick={() => setCurrentTimer(block)}
-              />
-            ))}
-          </div>
-        </SortableContext>
-      </DndContext>
-      {currentTimer && (
-        <TimerDisplay
-          initialTime={currentTimer.time}
-          onComplete={handleTimerComplete}
-        />
-      )}
-      <TimerLog logs={logs} />
+    <div className={styles['home-page']}>
+      <header>
+        <h1>Timebox App</h1>
+        <button onClick={() => setIsEditMode(!isEditMode)}>
+          {isEditMode ? "Exit Edit Mode" : "Enter Edit Mode"}
+        </button>
+      </header>
+      <div className={styles['content']}>
+        <div className={styles['time-boxes']}>
+          <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+            <SortableContext
+              items={timeBlocks.map((item) => item.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {timeBlocks.map((block) => (
+                <TimeBox
+                  key={block.id}
+                  {...block}
+                  onClick={() => !isEditMode && setCurrentTimer(block)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
+          {isEditMode && (
+            <EditMode timeBlocks={timeBlocks} setTimeBlocks={setTimeBlocks} />
+          )}
+        </div>
+        <div className={styles['timer-display']}>
+          {currentTimer && (
+            <TimerDisplay
+              initialTime={currentTimer.time}
+              onComplete={handleTimerComplete}
+            />
+          )}
+        </div>
+        <div className={styles['timer-controls']}>
+          <TimerLog logs={logs} />
+        </div>
+      </div>
     </div>
   );
 };

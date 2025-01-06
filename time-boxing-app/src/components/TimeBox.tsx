@@ -5,9 +5,10 @@ interface TimeBoxProps {
   id: string; // Unique ID for each draggable box
   label: string; // Label for the time block
   time: number; // Time in seconds
+  onClick: () => void; // Click handler for the time block
 }
 
-const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time }) => {
+const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time, onClick }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
 
@@ -32,8 +33,10 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time }) => {
       {...attributes}
       className="time-box"
     >
-      <h2>{label}</h2>
-      <p>{formatTime(time)}</p> {/* Display the time */}
+      <button onClick={onClick}>
+        <h2>{label}</h2>
+        <p>{formatTime(time)}</p> {/* Display the time */}
+      </button>
     </div>
   );
 };

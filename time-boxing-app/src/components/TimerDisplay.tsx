@@ -1,19 +1,35 @@
-import React from "react";
-import { useTimer } from "../hooks/useTimer";
+import React, { useState, useEffect } from "react";
 
 interface TimerDisplayProps {
   initialTime: number; // Time in seconds
-  onComplete: () => void; // Callback when the timer ends
+  onComplete: () => void; // Callback when the timer finishes
 }
 
 const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) => {
-  const { timeLeft, isRunning, start, pause, reset } = useTimer(initialTime);
+  const [timeLeft, setTimeLeft] = useState(initialTime);
+  const [isRunning, setIsRunning] = useState(false);
 
-  React.useEffect(() => {
-    if (timeLeft === 0) {
-      onComplete();
-    }
-  }, [timeLeft, onComplete]);
+  useEffect(() => {
+    setTimeLeft(initialTime);
+    setIsRunning(false); // Reset to paused state when the timer changes
+  }, [initialTime]);
+
+  useEffect(() => {
+    if (!isRunning) return;
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          onComplete();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [isRunning, onComplete]);
 
   const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
@@ -25,9 +41,9 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
     <div className="timer-display">
       <h1>{formatTime(timeLeft)}</h1>
       <div>
-        <button onClick={start} disabled={isRunning}>Start</button>
-        <button onClick={pause} disabled={!isRunning}>Pause</button>
-        <button onClick={reset}>Reset</button>
+        <button onClick={() => setIsRunning(true)}>Start</button>
+        <button onClick={() => setIsRunning(false)}>Pause</button>
+        <button onClick={() => setTimeLeft(initialTime)}>Reset</button>
       </div>
     </div>
   );
