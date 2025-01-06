@@ -4,12 +4,11 @@ import styles from '../styles/App.module.css'; // Import the CSS module
 
 interface TimeBoxProps {
   id: string; // Unique ID for each draggable box
-  label: string; // Label for the time block
   time: number; // Time in seconds
   onClick: () => void; // Click handler for the time block
 }
 
-const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time, onClick }) => {
+const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick }) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const [isDragging, setIsDragging] = useState(false);
@@ -22,9 +21,15 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time, onClick }) => {
   };
 
   const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+  };
+
+  const formatLabel = (seconds: number) => {
+    const hours = seconds / 3600;
+    return hours >= 1 ? `${hours % 1 === 0 ? hours : hours.toFixed(1)} Hrs` : `${Math.floor(seconds / 60)} Mins`;
   };
 
   const handleMouseDown = () => {
@@ -53,7 +58,7 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, label, time, onClick }) => {
       onDragStart={handleDragStart}
     >
       <button>
-        <h2>{label}</h2>
+        <h2>{formatLabel(time)}</h2>
         <p>{formatTime(time)}</p> {/* Display the time */}
       </button>
     </div>

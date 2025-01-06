@@ -8,24 +8,55 @@
 ├── public
 │   └── vite.svg
 ├── src
-│   ├── App.module.css
 │   ├── App.tsx
 │   ├── assets
-│   │   └── react.svg
+│   │   ├── images
+│   │   │   └── react.svg
+│   │   └── sounds
+│   │       ├── end.mp3
+│   │       ├── halfway.mp3
+│   │       └── start.mp3
 │   ├── components
 │   │   ├── EditMode.tsx
 │   │   ├── TimeBox.tsx
 │   │   ├── TimerDisplay.tsx
-│   │   └── TimerLog.tsx
+│   │   ├── TimerLog.tsx
+│   │   └── shared
+│   │       ├── Button.tsx
+│   │       ├── Header.tsx
+│   │       └── Modal.tsx
+│   ├── context
+│   │   ├── TimeBlockContext.tsx
+│   │   └── TimerContext.tsx
+│   ├── hooks
+│   │   ├── useAudio.ts
+│   │   ├── useLocalStorage.ts
+│   │   └── useTimer.ts
 │   ├── index.css
 │   ├── main.tsx
+│   ├── pages
+│   │   ├── HomePage.tsx
+│   │   └── SettingsPage.tsx
+│   ├── styles
+│   │   ├── App.module.css
+│   │   ├── SettingsPage.module.css
+│   │   ├── fonts
+│   │   │   └── Aldrich-Regular.ttf
+│   │   ├── mixins.css
+│   │   └── variables.css
+│   ├── types
+│   │   ├── index.d.ts
+│   │   ├── timeBlock.d.ts
+│   │   └── timerLog.d.ts
 │   ├── utils
 │   │   ├── audioManager.ts
-│   │   └── timeFormatter.ts
+│   │   ├── storage.ts
+│   │   ├── timeFormatter.ts
+│   │   └── validations.ts
 │   └── vite-env.d.ts
 ├── tsconfig.app.json
 ├── tsconfig.json
 ├── tsconfig.node.json
 └── vite.config.ts
 
-6 directories, 23 files
+15 directories, 45 files

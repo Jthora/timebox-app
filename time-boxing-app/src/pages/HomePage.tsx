@@ -84,7 +84,6 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
                 <TimeBox
                   key={timeBlock.id}
                   id={timeBlock.id}
-                  label={timeBlock.label}
                   time={timeBlock.time}
                   onClick={() => setCurrentTimer(timeBlock)}
                 />
