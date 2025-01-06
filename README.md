@@ -24,7 +24,7 @@ To start the application, run:
 ```bash
 npm run dev
 ```
-Open your browser and navigate to `http://localhost:3000` to use the Timebox App.
+Open your browser and navigate to `http://localhost:5173` to use the Timebox App.
 
 ## Contributing
 We welcome contributions to the Timebox App! To contribute, follow these steps:
