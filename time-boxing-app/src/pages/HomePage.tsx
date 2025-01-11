@@ -73,9 +73,11 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
   return (
     <div className={styles['home-page']}>
       <header className={styles['header']}>
-        <img src={logo} alt="Wing Commander Logo" className={styles['logo']} />
-        <h1>Timebox Control</h1>
-        <div className={styles['button-container']}>
+        <div className={styles['left-section']}>
+          <img src={logo} alt="Wing Commander Logo" className={styles['logo']} />
+          <h1>Timebox Control</h1>
+        </div>
+        <div className={styles['right-section']}>
           <button className={styles['lock-button']} onClick={() => setIsDragEnabled(!isDragEnabled)}>
             {isDragEnabled ? "Lock" : "Unlock"}
           </button>
