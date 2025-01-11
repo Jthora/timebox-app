@@ -15,6 +15,7 @@ import TimeBox from "../components/TimeBox";
 import { saveToLocalStorage, loadFromLocalStorage } from "../utils/storage";
 import { useNavigate } from "react-router-dom";
 import styles from '../styles/App.module.css'; // Import the CSS module
+import logo from '../assets/images/WingCommanderLogo-288x162.gif'; // Import the image
 
 interface TimeBlock {
   id: string;
@@ -25,6 +26,8 @@ interface TimeBlock {
 interface HomePageProps {
   timeBlocks: TimeBlock[];
   setTimeBlocks: (blocks: TimeBlock[]) => void;
+  logs: string[]; // Add logs prop
+  setLogs: (logs: string[]) => void; // Add setLogs prop
 }
 
 const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
@@ -69,7 +72,8 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
 
   return (
     <div className={styles['home-page']}>
-      <header>
+      <header className={styles['header']}>
+        <img src={logo} alt="Wing Commander Logo" className={styles['logo']} />
         <h1>Timebox Control</h1>
         <div className={styles['button-container']}>
           <button className={styles['lock-button']} onClick={() => setIsDragEnabled(!isDragEnabled)}>

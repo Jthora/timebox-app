@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "../styles/SettingsPage.module.css";
+import { saveToLocalStorage } from "../utils/storage";
 
 interface TimeBlock {
   id: string; // Unique ID for each time block
@@ -11,9 +12,10 @@ interface TimeBlock {
 interface SettingsPageProps {
   timeBlocks: TimeBlock[];
   setTimeBlocks: (blocks: TimeBlock[]) => void;
+  setLogs: (logs: string[]) => void; // Add setLogs prop
 }
 
-const SettingsPage: React.FC<SettingsPageProps> = ({ timeBlocks, setTimeBlocks }) => {
+const SettingsPage: React.FC<SettingsPageProps> = ({ timeBlocks, setTimeBlocks, setLogs }) => {
   const [newTime, setNewTime] = useState("");
   const navigate = useNavigate();
 
@@ -32,6 +34,11 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ timeBlocks, setTimeBlocks }
 
   const deleteBlock = (index: number) => {
     setTimeBlocks(timeBlocks.filter((_, i) => i !== index));
+  };
+
+  const clearSessionHistory = () => {
+    setLogs([]);
+    saveToLocalStorage("logs", []);
   };
 
   return (
@@ -56,6 +63,7 @@ const SettingsPage: React.FC<SettingsPageProps> = ({ timeBlocks, setTimeBlocks }
         />
         <button onClick={addBlock}>Add Time Block</button>
         <button onClick={() => navigate("/")}>Done</button>
+        <button onClick={clearSessionHistory}>Clear Session History</button>
       </div>
     </div>
   );
