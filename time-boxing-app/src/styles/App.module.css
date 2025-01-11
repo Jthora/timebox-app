@@ -35,7 +35,7 @@
 }
 
 .header img.logo {
-  height: 162px; /* Adjust the height as needed */
+  height: 100px; /* Adjust the height as needed */
   margin-right: 10px; /* Add some space between the image and the title */
 }
 
@@ -109,7 +109,7 @@
 }
 
 .time-boxes {
-  gap: 10px;
+  gap: 5px;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
@@ -119,7 +119,7 @@
   background-color: #1c3f3f;
   color: var(--primary-color);
   width: 250px;
-  height: 150px;
+  height: 140px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -229,6 +229,8 @@
   overflow-y: auto;
   background-color: #1c3f3f;
   align-self: right;
+  border-radius: 8px;
+  padding: 5px 5px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   width: 100%; /* Ensure it takes full width */
   height: 100%; /* Ensure it takes full height */
@@ -236,16 +238,17 @@
 
 .timer-log h3 {
   margin-top: 0;
+  padding: 5px 5px;
   font-family: var(--font-primary);
 }
 
 .timer-log ul {
   list-style: none;
-  padding: 0;
+  padding: 5px 5px;
 }
 
 .timer-log li {
-  padding: 5px 0;
+  padding: 5px 5px;
   border-bottom: 1px solid #2c4f4f;
 }
 
