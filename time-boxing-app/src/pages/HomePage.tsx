@@ -79,7 +79,7 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
   };
 
   return (
-    <div className={styles['home-page']}>
+    <div className={styles['home-page']} style={{ position: 'relative' }}>
       <header className={styles['header']}>
         <div className={styles['left-section']}>
           <img src={logo} alt="Wing Commander Logo" className={styles['logo']} />
