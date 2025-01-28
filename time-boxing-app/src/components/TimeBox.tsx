@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import styles from '../styles/App.module.css'; // Import the CSS module
+import useAudio from "../hooks/useAudio"; // Import the useAudio hook
 
 interface TimeBoxProps {
   id: string; // Unique ID for each draggable box
@@ -13,6 +14,7 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) =
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
   const [isDragging, setIsDragging] = useState(false);
+  const [, playClickSound] = useAudio("/src/components/sounds/beep5a.wav"); // Add the sound file path
 
   const style = {
     transform: transform
@@ -39,6 +41,7 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) =
 
   const handleMouseUp = () => {
     if (!isDragging) {
+      playClickSound(); // Play the click sound
       onClick();
     }
   };

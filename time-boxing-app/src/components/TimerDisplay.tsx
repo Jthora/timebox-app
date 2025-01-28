@@ -12,9 +12,9 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
   const [isRunning, setIsRunning] = useState(false);
 
   const [, playCompleteSound] = useAudio("/src/components/sounds/soft-attack-alert.wav");
-  const [, playStartSound] = useAudio("/src/components/sounds/sweetalertsound1.wav");
-  const [, playPauseSound] = useAudio("/src/components/sounds/microwave-beep.wav");
-  const [, playResetSound] = useAudio("/src/components/sounds/microwave-beep.wav");
+  const [, playStartSound] = useAudio("/src/components/sounds/microwave-beep.wav");
+  const [, playPauseSound] = useAudio("/src/components/sounds/beep5a.wav");
+  const [, playResetSound] = useAudio("/src/components/sounds/beep5a.wav");
 
   useEffect(() => {
     setTimeLeft(initialTime);
