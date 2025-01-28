@@ -12,6 +12,7 @@ import {
 import TimerLog from "../components/TimerLog";
 import TimerDisplay from "../components/TimerDisplay";
 import TimeBox from "../components/TimeBox";
+import CurrentTime from "../components/CurrentTime"; // Import the CurrentTime component
 import { saveToLocalStorage, loadFromLocalStorage } from "../utils/storage";
 import { useNavigate } from "react-router-dom";
 import styles from '../styles/App.module.css'; // Import the CSS module
@@ -47,7 +48,9 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
   }, [logs]);
 
   const handleDragEnd = (event: DragEndEvent) => {
-    if (!isDragEnabled) return; // Prevent drag-and-drop if disabled
+    if (!isDragEnabled) {
+      return; // Prevent drag-and-drop if disabled
+    }
 
     const { active, over } = event;
 
@@ -62,10 +65,15 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
 
   const handleTimerComplete = () => {
     if (currentTimer) {
-      setLogs((prevLogs) => [
-        ...prevLogs,
-        `${currentTimer.label} completed at ${new Date().toLocaleTimeString()}`,
-      ]);
+      console.log("Timer completed:", currentTimer.label);
+      setLogs((prevLogs) => {
+        const newLogs = [
+          ...prevLogs,
+          `${currentTimer.label} completed at ${new Date().toLocaleTimeString()}`,
+        ];
+        console.log("New logs:", newLogs);
+        return newLogs;
+      });
       setCurrentTimer(null);
     }
   };
@@ -84,6 +92,7 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
           <button className={styles['settings-button']} onClick={() => navigate("/settings")}>Settings</button>
         </div>
       </header>
+      <CurrentTime /> {/* Add the CurrentTime component here */}
       <div className={styles['content']}>
         <div className={styles['time-boxes']}>
           <DndContext
