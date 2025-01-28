@@ -12,8 +12,7 @@ import {
 import TimerLog from "../components/TimerLog";
 import TimerDisplay from "../components/TimerDisplay";
 import TimeBox from "../components/TimeBox";
-import CurrentTime from "../components/CurrentTime"; // Import the CurrentTime component
-import { saveToLocalStorage, loadFromLocalStorage } from "../utils/storage";
+import useLocalStorage from "../hooks/useLocalStorage"; // Import the useLocalStorage hook
 import { useNavigate } from "react-router-dom";
 import styles from '../styles/App.module.css'; // Import the CSS module
 import logo from '../assets/images/WingCommanderLogo-288x162.gif'; // Import the image
@@ -27,25 +26,18 @@ interface TimeBlock {
 interface HomePageProps {
   timeBlocks: TimeBlock[];
   setTimeBlocks: (blocks: TimeBlock[]) => void;
-  logs: string[]; // Add logs prop
-  setLogs: (logs: string[]) => void; // Add setLogs prop
 }
 
 const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
-  const [logs, setLogs] = useState<string[]>(
-    loadFromLocalStorage("logs", [])
-  );
+  const [logs, setLogs] = useLocalStorage<string[]>("logs", []);
+  const [storedTimeBlocks, setStoredTimeBlocks] = useLocalStorage<TimeBlock[]>("timeBlocks", timeBlocks);
   const [currentTimer, setCurrentTimer] = useState<TimeBlock | null>(null);
   const [isDragEnabled, setIsDragEnabled] = useState(true); // State to toggle drag-and-drop
   const navigate = useNavigate();
 
   useEffect(() => {
-    saveToLocalStorage("timeBlocks", timeBlocks);
-  }, [timeBlocks]);
-
-  useEffect(() => {
-    saveToLocalStorage("logs", logs);
-  }, [logs]);
+    setStoredTimeBlocks(timeBlocks);
+  }, [timeBlocks, setStoredTimeBlocks]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     if (!isDragEnabled) {
@@ -55,10 +47,11 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
     const { active, over } = event;
 
     if (active.id !== over?.id) {
-      const oldIndex = timeBlocks.findIndex((item) => item.id === active.id);
-      const newIndex = timeBlocks.findIndex((item) => item.id === over?.id);
+      const oldIndex = storedTimeBlocks.findIndex((item) => item.id === active.id);
+      const newIndex = storedTimeBlocks.findIndex((item) => item.id === over?.id);
 
-      const newTimeBlocks = arrayMove(timeBlocks, oldIndex, newIndex);
+      const newTimeBlocks = arrayMove(storedTimeBlocks, oldIndex, newIndex);
+      setStoredTimeBlocks(newTimeBlocks);
       setTimeBlocks(newTimeBlocks);
     }
   };
@@ -66,14 +59,10 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
   const handleTimerComplete = () => {
     if (currentTimer) {
       console.log("Timer completed:", currentTimer.label);
-      setLogs((prevLogs) => {
-        const newLogs = [
-          ...prevLogs,
-          `${currentTimer.label} completed at ${new Date().toLocaleTimeString()}`,
-        ];
-        console.log("New logs:", newLogs);
-        return newLogs;
-      });
+      setLogs((prevLogs) => [
+        ...prevLogs,
+        `${currentTimer.label} completed at ${new Date().toLocaleTimeString()}`,
+      ]);
       setCurrentTimer(null);
     }
   };
@@ -92,7 +81,6 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
           <button className={styles['settings-button']} onClick={() => navigate("/settings")}>Settings</button>
         </div>
       </header>
-      <CurrentTime /> {/* Add the CurrentTime component here */}
       <div className={styles['content']}>
         <div className={styles['time-boxes']}>
           <DndContext
@@ -101,10 +89,10 @@ const HomePage: React.FC<HomePageProps> = ({ timeBlocks, setTimeBlocks }) => {
             sensors={isDragEnabled ? undefined : []} // Disable sensors if drag-and-drop is disabled
           >
             <SortableContext
-              items={timeBlocks}
+              items={storedTimeBlocks}
               strategy={verticalListSortingStrategy}
             >
-              {timeBlocks.map((timeBlock) => (
+              {storedTimeBlocks.map((timeBlock) => (
                 <TimeBox
                   key={timeBlock.id}
                   id={timeBlock.id}

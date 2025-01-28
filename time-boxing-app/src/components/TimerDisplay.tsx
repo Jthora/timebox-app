@@ -1,6 +1,6 @@
-// filepath: /Users/jono/Documents/GitHub/timebox-app/time-boxing-app/src/components/TimerDisplay.tsx
 import React, { useState, useEffect } from "react";
 import useAudio from "../hooks/useAudio";
+import CurrentTime from "./CurrentTime"; // Import the CurrentTime component
 
 interface TimerDisplayProps {
   initialTime: number; // Time in seconds
@@ -20,6 +20,12 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
     setTimeLeft(initialTime);
     setIsRunning(false); // Reset to paused state when the timer changes
   }, [initialTime]);
+
+  useEffect(() => {
+    if (initialTime === 0) {
+      onComplete();
+    }
+  }, [initialTime, onComplete]);
 
   useEffect(() => {
     if (!isRunning) {
@@ -50,11 +56,12 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
 
   return (
     <div className="timer-display">
+      <CurrentTime /> {/* Add the CurrentTime component here */}
       <h1>{formatTime(timeLeft)}</h1>
       <div>
         <button onClick={() => { setIsRunning(true); playStartSound(); }}>Start</button>
         <button onClick={() => { setIsRunning(false); playPauseSound(); }}>Pause</button>
-        <button onClick={() => { setTimeLeft(initialTime); playResetSound(); }}>Reset</button>
+        <button onClick={() => { setTimeLeft(initialTime); setIsRunning(false); playResetSound(); }}>Reset</button>
       </div>
     </div>
   );
