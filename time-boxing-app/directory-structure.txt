@@ -1,30 +1,53 @@
 .
+├── .gitignore
 ├── README.md
 ├── directory-structure.txt
 ├── eslint.config.js
 ├── index.html
+├── jest.config.js
 ├── package-lock.json
 ├── package.json
 ├── public
 │   └── vite.svg
 ├── src
 │   ├── App.tsx
+│   ├── __tests__
+│   │   └── App.test.tsx
 │   ├── assets
 │   │   ├── images
+│   │   │   ├── WingCommanderLogo-288x162.gif
 │   │   │   └── react.svg
 │   │   └── sounds
 │   │       ├── end.mp3
 │   │       ├── halfway.mp3
 │   │       └── start.mp3
 │   ├── components
+│   │   ├── CurrentTime.tsx
 │   │   ├── EditMode.tsx
 │   │   ├── TimeBox.tsx
 │   │   ├── TimerDisplay.tsx
 │   │   ├── TimerLog.tsx
-│   │   └── shared
-│   │       ├── Button.tsx
-│   │       ├── Header.tsx
-│   │       └── Modal.tsx
+│   │   ├── shared
+│   │   │   ├── Button.tsx
+│   │   │   ├── Header.tsx
+│   │   │   └── Modal.tsx
+│   │   └── sounds
+│   │       ├── 4000-hz-beeps.wav
+│   │       ├── alarm-02-short.wav
+│   │       ├── alarm-loop-1-v3.wav
+│   │       ├── beep5.wav
+│   │       ├── beep5a.wav
+│   │       ├── beep_sequence_07.wav
+│   │       ├── bell-ding-3.wav
+│   │       ├── ding1.wav
+│   │       ├── ding4.wav
+│   │       ├── five_beeps.wav
+│   │       ├── kitchen-timer-done.wav
+│   │       ├── long-beep_011.wav
+│   │       ├── microwave-beep.wav
+│   │       ├── soft-attack-alert.wav
+│   │       ├── sweetalertsound1.wav
+│   │       └── tone-beep-amb-verb.wav
 │   ├── context
 │   │   ├── TimeBlockContext.tsx
 │   │   └── TimerContext.tsx
@@ -59,4 +82,4 @@
 ├── tsconfig.node.json
 └── vite.config.ts
 
-15 directories, 45 files
+17 directories, 66 files
