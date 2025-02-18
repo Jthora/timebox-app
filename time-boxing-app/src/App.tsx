@@ -7,16 +7,16 @@ import Header from "./components/Header/Header"; // Import Header component
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <TimeBlockProvider>
-          <TimerProvider>
+    <TimerProvider>
+      <TimeBlockProvider>
+        <div className="App">
+          <BrowserRouter>
             <Header /> {/* Always render Header */}
             <AppRoutes />
-          </TimerProvider>
-        </TimeBlockProvider>
-      </BrowserRouter>
-    </div>
+          </BrowserRouter>
+        </div>
+      </TimeBlockProvider>
+    </TimerProvider>
   );
 };
 

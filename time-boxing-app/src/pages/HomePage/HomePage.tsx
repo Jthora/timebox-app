@@ -14,7 +14,7 @@ import TimeBoxButtons from "../../components/TimeBoxButtons/TimeBoxButtons"; // 
 import styles from './HomePage.module.css'; // Import the CSS module
 import { observer } from "mobx-react-lite";
 import settingsStore from "../../store/SettingsStore"; // Import SettingsStore
-import { useTimeBlocks } from "../../context/TimeBlockContext"; // Import TimeBlockContext
+import useTimeBlocks from "../../hooks/useTimeBlocks"; // Import useTimeBlocks hook
 import { TimeBlock } from "../../types/TimeBlock"; // Import TimeBlock type
 
 const HomePage: React.FC = observer(() => {
@@ -24,8 +24,10 @@ const HomePage: React.FC = observer(() => {
   useEffect(() => {
     if (timeBlocks.length === 0) {
       setTimeBlocks(settingsStore.getDefaultTimeBlocks());
+    } else if (!currentTimer && timeBlocks.length > 0) {
+      setCurrentTimer(timeBlocks[0]); // Pre-select the top-most TimeBlock
     }
-  }, [timeBlocks, setTimeBlocks]);
+  }, [timeBlocks, setTimeBlocks, currentTimer]);
 
   const handleDragEnd = (event: DragEndEvent) => {
     if (!settingsStore.isDragEnabled) {
@@ -44,31 +46,42 @@ const HomePage: React.FC = observer(() => {
     }
   };
 
+  useEffect(() => {
+    console.log("Current Timer:", currentTimer);
+  }, [currentTimer]);
+
   return (
     <div className={styles['home-page']}>
       <div className={styles['time-boxes']}>
-          <DndContext
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            sensors={settingsStore.isDragEnabled ? undefined : []} // Disable sensors if drag-and-drop is disabled
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          sensors={settingsStore.isDragEnabled ? undefined : []} // Disable sensors if drag-and-drop is disabled
+        >
+          <SortableContext
+            items={timeBlocks.map((timeBlock) => timeBlock.id)} // Ensure items are IDs
+            strategy={verticalListSortingStrategy}
           >
-            <SortableContext
-              items={timeBlocks.map((timeBlock) => timeBlock.id)} // Ensure items are IDs
-              strategy={verticalListSortingStrategy}
-            >
-              <TimeBoxButtons
-                onTimeBoxClick={(timeBlock) => setCurrentTimer(timeBlock)}
-                isDragEnabled={settingsStore.isDragEnabled}
-              />
-            </SortableContext>
-          </DndContext>
-        </div>
-        <div className={styles['timer-display']} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+            <TimeBoxButtons
+              onTimeBoxClick={(timeBlock) => {
+                console.log("TimeBox clicked:", timeBlock);
+                setCurrentTimer(timeBlock);
+                console.log("Current Timer after click:", timeBlock);
+              }}
+              isDragEnabled={settingsStore.isDragEnabled}
+            />
+          </SortableContext>
+        </DndContext>
+      </div>
+      <div className={styles['timer-display']} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+        {currentTimer && (
           <TimerDisplay
-            initialTime={currentTimer ? currentTimer.time : 0}
+            initialTime={currentTimer.time}
             onComplete={() => setCurrentTimer(null)}
+            currentTimeBlock={currentTimer} // Pass currentTimeBlock
           />
-        </div>
+        )}
+      </div>
     </div>
   );
 });

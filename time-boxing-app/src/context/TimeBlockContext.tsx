@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { TimeBlock } from "../types/TimeBlock"; // Import TimeBlock class
 import settingsStore from "../store/SettingsStore"; // Import SettingsStore
 
@@ -9,7 +9,7 @@ interface TimeBlockContextProps {
 
 const TimeBlockContext = createContext<TimeBlockContextProps | undefined>(undefined);
 
-export const TimeBlockProvider: React.FC = ({ children }) => {
+export const TimeBlockProvider: React.FC<React.PropsWithChildren<unknown>> = ({ children }) => {
   const [timeBlocks, setTimeBlocks] = useState<TimeBlock[]>([]);
 
   useEffect(() => {
@@ -31,6 +31,8 @@ export const TimeBlockProvider: React.FC = ({ children }) => {
     </TimeBlockContext.Provider>
   );
 };
+
+export { TimeBlockContext }; // Export TimeBlockContext
 
 export const useTimeBlocks = () => {
   const context = useContext(TimeBlockContext);

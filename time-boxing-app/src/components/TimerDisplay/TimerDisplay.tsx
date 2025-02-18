@@ -1,47 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import AudioPlayer from "../../utils/AudioPlayer";
 import CurrentTime from "../CurrentTime/CurrentTime";
 import styles from "./TimerDisplay.module.css";
+import useTimer from "../../hooks/useTimer"; // Import TimerContext
+import { TimeBlock } from "../../types/TimeBlock";
 
 interface TimerDisplayProps {
   initialTime: number;
   onComplete: () => void;
+  currentTimeBlock: TimeBlock; // Add currentTimeBlock prop
 }
 
-const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) => {
-  const [timeLeft, setTimeLeft] = useState(initialTime);
-  const [isRunning, setIsRunning] = useState(false);
+const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete, currentTimeBlock }) => {
+  const { timeLeft, setTimeLeft, isRunning, setIsRunning, setCurrentTimeBlock } = useTimer();
 
   useEffect(() => {
-    setTimeLeft(initialTime);
-    setIsRunning(false);
-  }, [initialTime]);
+    console.log("TimerDisplay initialTime:", initialTime);
+    console.log("TimerDisplay currentTimeBlock:", currentTimeBlock);
+    if (initialTime > 0) {
+      setTimeLeft(initialTime);
+      setCurrentTimeBlock(currentTimeBlock); // Set currentTimeBlock
+    }
+  }, [initialTime, setTimeLeft, setCurrentTimeBlock, currentTimeBlock]);
 
   useEffect(() => {
-    if (initialTime === 0) {
+    if (timeLeft === 0 && isRunning) {
       onComplete();
+      setIsRunning(false);
     }
-  }, [initialTime, onComplete]);
-
-  useEffect(() => {
-    if (!isRunning) {
-      return;
-    }
-
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          onComplete();
-          AudioPlayer.playCompleteSound();
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [isRunning, onComplete]);
+  }, [timeLeft, isRunning, onComplete, setIsRunning]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);

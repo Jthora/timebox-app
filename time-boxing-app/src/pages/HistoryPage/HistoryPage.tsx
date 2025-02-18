@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from "react";
 import SessionHistory from "../../components/SessionHistory/SessionHistory";
 import styles from "./HistoryPage.module.css";
-import { useTimer } from "../../context/TimerContext"; // Import TimerContext
 import settingsStore from "../../store/SettingsStore"; // Import SettingsStore
 
 const HistoryPage: React.FC = () => {
-  const { logs, setLogs } = useTimer();
-  const [sessionLogs, setSessionLogs] = useState(logs);
+  const [sessionLogs, setSessionLogs] = useState<string[]>([]);
 
   useEffect(() => {
-    setSessionLogs(logs);
-  }, [logs]);
+    const fetchLogs = async () => {
+      const logs = settingsStore.getLogs();
+      setSessionLogs(logs);
+    };
+    fetchLogs();
+  }, []);
 
-  const clearSessionHistory = () => {
-    settingsStore.clearSessionHistory();
-    setLogs([]); // Update the logs in TimerContext
+  const clearSessionHistory = async () => {
+    await settingsStore.clearSessionHistory();
+    setSessionLogs([]);
   };
 
   return (
