@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
-import useAudio from "../hooks/useAudio";
-import CurrentTime from "./CurrentTime"; // Import the CurrentTime component
+import AudioPlayer from "../utils/AudioPlayer";
+import CurrentTime from "./CurrentTime";
 
 interface TimerDisplayProps {
-  initialTime: number; // Time in seconds
-  onComplete: () => void; // Callback when the timer finishes
+  initialTime: number;
+  onComplete: () => void;
 }
 
 const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) => {
   const [timeLeft, setTimeLeft] = useState(initialTime);
   const [isRunning, setIsRunning] = useState(false);
 
-  const [, playCompleteSound] = useAudio("/src/components/sounds/soft-attack-alert.wav");
-  const [, playStartSound] = useAudio("/src/components/sounds/microwave-beep.wav");
-  const [, playPauseSound] = useAudio("/src/components/sounds/beep5a.wav");
-  const [, playResetSound] = useAudio("/src/components/sounds/beep5a.wav");
-
   useEffect(() => {
     setTimeLeft(initialTime);
-    setIsRunning(false); // Reset to paused state when the timer changes
+    setIsRunning(false);
   }, [initialTime]);
 
   useEffect(() => {
@@ -37,7 +32,7 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
         if (prev <= 1) {
           clearInterval(interval);
           onComplete();
-          playCompleteSound();
+          AudioPlayer.playCompleteSound();
           return 0;
         }
         return prev - 1;
@@ -45,7 +40,7 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [isRunning, onComplete, playCompleteSound]);
+  }, [isRunning, onComplete]);
 
   const formatTime = (seconds: number) => {
     const hours = Math.floor(seconds / 3600);
@@ -56,12 +51,12 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
 
   return (
     <div className="timer-display">
-      <CurrentTime /> {/* Add the CurrentTime component here */}
+      <CurrentTime />
       <h1>{formatTime(timeLeft)}</h1>
       <div>
-        <button onClick={() => { setIsRunning(true); playStartSound(); }}>Start</button>
-        <button onClick={() => { setIsRunning(false); playPauseSound(); }}>Pause</button>
-        <button onClick={() => { setTimeLeft(initialTime); setIsRunning(false); playResetSound(); }}>Reset</button>
+        <button onClick={() => { setIsRunning(true); AudioPlayer.playStartSound(); }}>Start</button>
+        <button onClick={() => { setIsRunning(false); AudioPlayer.stopAllSounds(); AudioPlayer.playPauseSound(); }}>Pause</button>
+        <button onClick={() => { setTimeLeft(initialTime); setIsRunning(false); AudioPlayer.stopAllSounds(); AudioPlayer.playResetSound(); }}>Reset</button>
       </div>
     </div>
   );
