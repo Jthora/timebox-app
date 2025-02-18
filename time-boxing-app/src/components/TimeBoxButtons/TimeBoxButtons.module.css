@@ -1,0 +1,19 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.content h2 {
+    font-size: 1rem;
+    margin: 0px;
+    padding: 10px;
+}
+
+.time-box-buttons {
+    display: flex;
+    flex-direction: column; /* Order buttons in columns first */
+    flex-wrap: wrap;
+    justify-content: flex-start; /* Align to the left */
+    max-height: 80vh; /* Respect the screen height limit */
+}

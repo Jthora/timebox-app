@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
-import styles from '../styles/App.module.css'; // Import the CSS module
-import useAudio from "../hooks/useAudio"; // Import the useAudio hook
+import styles from './TimeBox.module.css';
+import AudioPlayer from "../../utils/AudioPlayer";
 
 interface TimeBoxProps {
-  id: string; // Unique ID for each draggable box
-  time: number; // Time in seconds
-  onClick: () => void; // Click handler for the time block
-  isDragEnabled: boolean; // Prop to determine if dragging is enabled
+  id: string;
+  time: number;
+  onClick: () => void;
+  isDragEnabled: boolean;
 }
 
 const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
   const [isDragging, setIsDragging] = useState(false);
-  const [, playClickSound] = useAudio("/src/components/sounds/beep5a.wav"); // Add the sound file path
 
   const style = {
-    transform: transform
-      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      : undefined,
+    transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
     transition,
   };
 
@@ -35,35 +31,31 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) =
     return hours >= 1 ? `${hours % 1 === 0 ? hours : hours.toFixed(1)} Hrs` : `${Math.floor(seconds / 60)} Mins`;
   };
 
-  const handleMouseDown = () => {
-    setIsDragging(false);
-  };
+  const handleMouseDown = () => setIsDragging(false);
 
   const handleMouseUp = () => {
     if (!isDragging) {
-      playClickSound(); // Play the click sound
+      AudioPlayer.playDefaultButtonSound();
       onClick();
     }
   };
 
-  const handleDragStart = () => {
-    setIsDragging(true);
-  };
+  const handleDragStart = () => setIsDragging(true);
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      {...(isDragEnabled ? listeners : {})} // Apply listeners only if dragging is enabled
+      {...(isDragEnabled ? listeners : {})}
       {...attributes}
-      className={styles['time-box']} // Use the CSS module class
+      className={styles['time-box']}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onDragStart={handleDragStart}
     >
       <button>
         <h2>{formatLabel(time)}</h2>
-        <p>{formatTime(time)}</p> {/* Display the time */}
+        <p>{formatTime(time)}</p>
       </button>
     </div>
   );

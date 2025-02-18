@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from "./CurrentTime.module.css";
 
 const CurrentTime: React.FC = () => {
   const [currentTime, setCurrentTime] = useState<string>("");
@@ -23,7 +24,7 @@ const CurrentTime: React.FC = () => {
   }, []);
 
   return (
-    <div className="current-time">
+    <div className={styles.currentTime}>
       {currentTime}
     </div>
   );

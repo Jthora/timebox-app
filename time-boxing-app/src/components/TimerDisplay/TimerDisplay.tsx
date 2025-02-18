@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import AudioPlayer from "../utils/AudioPlayer";
-import CurrentTime from "./CurrentTime";
+import AudioPlayer from "../../utils/AudioPlayer";
+import CurrentTime from "../CurrentTime/CurrentTime";
+import styles from "./TimerDisplay.module.css";
 
 interface TimerDisplayProps {
   initialTime: number;
@@ -49,10 +50,18 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete }) 
     return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
+  const calculateETA = (seconds: number) => {
+    const endTime = new Date(Date.now() + seconds * 1000);
+    return endTime.toLocaleTimeString();
+  };
+
   return (
-    <div className="timer-display">
+    <div className={styles['timer-display']}>
       <CurrentTime />
       <h1>{formatTime(timeLeft)}</h1>
+      <div className={styles.timerETA}>
+        {isRunning && <span>ETA: {calculateETA(timeLeft)}</span>}
+      </div>
       <div>
         <button onClick={() => { setIsRunning(true); AudioPlayer.playStartSound(); }}>Start</button>
         <button onClick={() => { setIsRunning(false); AudioPlayer.stopAllSounds(); AudioPlayer.playPauseSound(); }}>Pause</button>

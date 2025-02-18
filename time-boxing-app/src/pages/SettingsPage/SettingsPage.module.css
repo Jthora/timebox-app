@@ -1,46 +1,54 @@
+@import '../../styles/variables.css';
+
 .settings-page {
   font-family: var(--font-secondary);
   background-color: var(--background-color);
   color: var(--text-color);
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  width: 100%;
+  z-index: 10; /* Ensure Header is above other elements */
+}
+
+.content {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
-  height: 100vh;
+  flex-grow: 1;
 }
 
-.settings-page h1 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.settings-page .left-panel,
-.settings-page .right-panel {
+.left-panel,
+.right-panel {
   flex: 1;
   padding: 20px;
 }
 
-.settings-page .left-panel {
+.left-panel {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.settings-page .right-panel {
+.right-panel {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.settings-page ul {
+ul {
   list-style: none;
   padding: 0;
+  margin: 0;
   width: 100%;
-  max-width: 600px;
+  max-width: 500px;
 }
 
-.settings-page li {
+li {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -52,11 +60,11 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.settings-page li span {
+li span {
   flex-grow: 1;
 }
 
-.settings-page li button {
+li button {
   background-color: #285757;
   color: var(--primary-color);
   border: none;
@@ -66,12 +74,12 @@
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.settings-page li button:hover {
+li button:hover {
   background-color: #1c3f3f;
   box-shadow: var(--hover-glow);
 }
 
-.settings-page input {
+input {
   margin-bottom: 10px;
   padding: 15px; /* Increased padding */
   width: 100%;
@@ -81,7 +89,7 @@
   font-size: 1.25rem; /* Increased font size */
 }
 
-.settings-page button {
+button {
   background-color: #1c3f3f;
   color: var(--primary-color);
   border: none;
@@ -93,7 +101,7 @@
   font-size: 1.25rem; /* Increased font size */
 }
 
-.settings-page button:hover {
+button:hover {
   background-color: #285757;
   box-shadow: var(--hover-glow);
 }
