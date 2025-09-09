@@ -4,17 +4,19 @@ import { TimeBlock } from "../types/TimeBlock"; // Import TimeBlock class
 class SettingsStore {
     isDragEnabled: boolean;
     defaultTimeBlocks: TimeBlock[];
+    timeBlocks: TimeBlock[]; // observable current editable list
     logs: string[] = [];
 
     constructor() {
         this.isDragEnabled = true;
-        this.defaultTimeBlocks = [
+    this.defaultTimeBlocks = [
         new TimeBlock('1', 15 * 60, '15 mins'),
         new TimeBlock('2', 30 * 60, '30 mins'),
         new TimeBlock('3', 60 * 60, '1 hr'),
         new TimeBlock('4', 2.5 * 60 * 60, '2.5 hrs'),
         new TimeBlock('5', 4 * 60 * 60, '4 hrs'),
         ];
+    this.timeBlocks = [...this.defaultTimeBlocks];
         this.logs = [];
         makeAutoObservable(this);
         this.initialize();
@@ -22,7 +24,9 @@ class SettingsStore {
 
     async initialize() {
         this.isDragEnabled = await this.loadFromLocalStorage("isDragEnabled", true);
-        this.defaultTimeBlocks = await this.loadFromLocalStorage("timeBlocks", this.defaultTimeBlocks);
+        const storedBlocks = await this.loadFromLocalStorage("timeBlocks", this.defaultTimeBlocks);
+        this.defaultTimeBlocks = storedBlocks; // keep original semantic
+        this.timeBlocks = storedBlocks;
         this.logs = await this.loadFromLocalStorage("logs", []);
     }
 
@@ -67,11 +71,13 @@ class SettingsStore {
     }
 
     async getTimeBlocks(): Promise<TimeBlock[]> {
-        return await this.loadFromLocalStorage("timeBlocks", this.defaultTimeBlocks);
+        // Return in-memory observable list (already synced on mutations)
+        return this.timeBlocks;
     }
 
     async setTimeBlocks(blocks: TimeBlock[]): Promise<void> {
         if (Array.isArray(blocks) && blocks.every(block => block.id && block.label && block.time)) {
+        this.timeBlocks = blocks;
         await this.saveToLocalStorage("timeBlocks", blocks.map(block => block.toJSON()));
         console.log("Time blocks updated successfully");
         } else {

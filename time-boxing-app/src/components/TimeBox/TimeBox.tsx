@@ -8,9 +8,12 @@ interface TimeBoxProps {
   time: number;
   onClick: () => void;
   isDragEnabled: boolean;
+  active?: boolean;
 }
 
-const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) => {
+import { formatDurationLabel, formatHMS } from "../../utils/timeFormatter";
+
+const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled, active = false }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
   const [isDragging, setIsDragging] = useState(false);
 
@@ -19,17 +22,8 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) =
     transition,
   };
 
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-  };
-
-  const formatLabel = (seconds: number) => {
-    const hours = seconds / 3600;
-    return hours >= 1 ? `${hours % 1 === 0 ? hours : hours.toFixed(1)} Hrs` : `${Math.floor(seconds / 60)} Mins`;
-  };
+  const formatTime = (seconds: number) => formatHMS(seconds);
+  const formatLabel = (seconds: number) => formatDurationLabel(seconds);
 
   const handleMouseDown = () => setIsDragging(false);
 
@@ -48,14 +42,14 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled }) =
       style={style}
       {...(isDragEnabled ? listeners : {})}
       {...attributes}
-      className={styles['time-box']}
+  className={styles['time-box'] + (active ? ' ' + styles['active'] : '')}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onDragStart={handleDragStart}
     >
       <button>
-        <h2>{formatLabel(time)}</h2>
-        <p>{formatTime(time)}</p>
+  <h2>{formatLabel(time)}</h2>
+  <p>{formatTime(time)}</p>
       </button>
     </div>
   );

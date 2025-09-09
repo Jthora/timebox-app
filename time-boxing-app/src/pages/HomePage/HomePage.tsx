@@ -69,6 +69,7 @@ const HomePage: React.FC = observer(() => {
                 console.log("Current Timer after click:", timeBlock);
               }}
               isDragEnabled={settingsStore.isDragEnabled}
+              activeTimeBlockId={currentTimer?.id}
             />
           </SortableContext>
         </DndContext>

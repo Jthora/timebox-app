@@ -35,6 +35,21 @@
   box-shadow: var(--hover-glow);
 }
 
+.time-box.active {
+  outline: 2px solid var(--accent-color, #4fd1c5);
+  box-shadow: 0 0 10px rgba(79, 209, 197, 0.6);
+  position: relative;
+}
+
+.time-box.active::after {
+  content: '◉';
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  font-size: 0.6rem;
+  color: var(--accent-color, #4fd1c5);
+}
+
 .time-box:active {
   cursor: grabbing;
   box-shadow: var(--active-glow);

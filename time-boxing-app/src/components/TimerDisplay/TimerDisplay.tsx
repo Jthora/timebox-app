@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import AudioPlayer from "../../utils/AudioPlayer";
 import CurrentTime from "../CurrentTime/CurrentTime";
 import styles from "./TimerDisplay.module.css";
 import useTimer from "../../hooks/useTimer"; // Import TimerContext
+import { formatHMS } from "../../utils/timeFormatter";
 import { TimeBlock } from "../../types/TimeBlock";
 
 interface TimerDisplayProps {
@@ -30,22 +31,27 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete, cu
     }
   }, [timeLeft, isRunning, onComplete, setIsRunning]);
 
-  const formatTime = (seconds: number) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-  };
+  const formatTime = (seconds: number) => formatHMS(seconds);
 
   const calculateETA = (seconds: number) => {
     const endTime = new Date(Date.now() + seconds * 1000);
     return endTime.toLocaleTimeString();
   };
 
+  const progress = useMemo(() => {
+    if (!initialTime || initialTime <= 0) return 0;
+    return Math.min(1, Math.max(0, (initialTime - timeLeft) / initialTime));
+  }, [initialTime, timeLeft]);
+
   return (
     <div className={styles['timer-display']}>
       <CurrentTime />
-      <h1>{formatTime(timeLeft)}</h1>
+      <div className={styles['progress-wrapper']}>
+        <div className={styles['progress-bar']} aria-label="timer progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress*100)} role="progressbar">
+          <div className={styles['progress-bar-fill']} style={{ width: `${progress * 100}%` }} />
+        </div>
+        <h1>{formatTime(timeLeft)}</h1>
+      </div>
       <div className={styles.timerETA}>
         {isRunning && <span>ETA: {calculateETA(timeLeft)}</span>}
       </div>
