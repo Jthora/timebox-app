@@ -79,7 +79,7 @@ const HomePage: React.FC = observer(() => {
           </SortableContext>
         </DndContext>
       </div>
-      <div className={styles['timer-display']} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+  <div className={styles['timer-display']}>
         {currentTimer && (
           <TimerDisplay
             initialTime={currentTimer.time}
