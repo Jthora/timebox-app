@@ -6,6 +6,7 @@ class SettingsStore {
     defaultTimeBlocks: TimeBlock[];
     timeBlocks: TimeBlock[]; // observable current editable list
     logs: string[] = [];
+    lastSelectedTimeBlockId: string | null = null;
 
     constructor() {
         this.isDragEnabled = true;
@@ -17,6 +18,7 @@ class SettingsStore {
         new TimeBlock('5', 4 * 60 * 60, '4 hrs'),
         ];
     this.timeBlocks = [...this.defaultTimeBlocks];
+    this.lastSelectedTimeBlockId = null;
         this.logs = [];
         makeAutoObservable(this);
         this.initialize();
@@ -27,7 +29,8 @@ class SettingsStore {
         const storedBlocks = await this.loadFromLocalStorage("timeBlocks", this.defaultTimeBlocks);
         this.defaultTimeBlocks = storedBlocks; // keep original semantic
         this.timeBlocks = storedBlocks;
-        this.logs = await this.loadFromLocalStorage("logs", []);
+    this.logs = await this.loadFromLocalStorage("logs", []);
+    this.lastSelectedTimeBlockId = await this.loadFromLocalStorage("lastSelectedTimeBlockId", null);
     }
 
     async loadFromLocalStorage<T>(key: string, defaultValue: T): Promise<T> {
@@ -83,6 +86,15 @@ class SettingsStore {
         } else {
         console.error("Invalid TimeBlock array");
         }
+    }
+
+    async setLastSelectedTimeBlockId(id: string | null): Promise<void> {
+        this.lastSelectedTimeBlockId = id;
+        await this.saveToLocalStorage("lastSelectedTimeBlockId", id);
+    }
+
+    getLastSelectedTimeBlockId(): string | null {
+        return this.lastSelectedTimeBlockId;
     }
 
     async clearSessionHistory(): Promise<void> {

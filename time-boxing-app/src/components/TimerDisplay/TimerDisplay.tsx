@@ -46,11 +46,19 @@ const TimerDisplay: React.FC<TimerDisplayProps> = ({ initialTime, onComplete, cu
   return (
     <div className={styles['timer-display']}>
       <CurrentTime />
-      <div className={styles['progress-wrapper']}>
-        <div className={styles['progress-bar']} aria-label="timer progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress*100)} role="progressbar">
-          <div className={styles['progress-bar-fill']} style={{ width: `${progress * 100}%` }} />
-        </div>
-        <h1>{formatTime(timeLeft)}</h1>
+      <div className={styles['ring-wrapper']}>
+        <svg className={styles['progress-ring']} width="260" height="260" viewBox="0 0 260 260" role="img" aria-label="Timer progress circular visualization">
+          <circle className={styles['progress-ring-bg']} cx="130" cy="130" r="120" />
+          <circle
+            className={styles['progress-ring-fill']}
+            cx="130" cy="130" r="120"
+            strokeDasharray={2 * Math.PI * 120}
+            strokeDashoffset={(1 - progress) * 2 * Math.PI * 120}
+            aria-hidden="true"
+          />
+          <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" className={styles['ring-time']}>{formatTime(timeLeft)}</text>
+        </svg>
+        <div className={styles['sr-only-progress']} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress*100)} aria-label="Timer progress" />
       </div>
       <div className={styles.timerETA}>
         {isRunning && <span>ETA: {calculateETA(timeLeft)}</span>}

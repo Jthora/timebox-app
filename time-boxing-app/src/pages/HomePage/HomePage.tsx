@@ -14,7 +14,7 @@ import TimeBoxButtons from "../../components/TimeBoxButtons/TimeBoxButtons"; // 
 import styles from './HomePage.module.css'; // Import the CSS module
 import { observer } from "mobx-react-lite";
 import settingsStore from "../../store/SettingsStore"; // Import SettingsStore
-import useTimeBlocks from "../../hooks/useTimeBlocks"; // Import useTimeBlocks hook
+import useTimeBlocks from "../../hooks/useTimeBlocks"; // still used, but consider future consolidation
 import { TimeBlock } from "../../types/TimeBlock"; // Import TimeBlock type
 
 const HomePage: React.FC = observer(() => {
@@ -24,8 +24,12 @@ const HomePage: React.FC = observer(() => {
   useEffect(() => {
     if (timeBlocks.length === 0) {
       setTimeBlocks(settingsStore.getDefaultTimeBlocks());
-    } else if (!currentTimer && timeBlocks.length > 0) {
-      setCurrentTimer(timeBlocks[0]); // Pre-select the top-most TimeBlock
+      return;
+    }
+    if (!currentTimer && timeBlocks.length > 0) {
+      const lastId = settingsStore.getLastSelectedTimeBlockId();
+      const found = lastId ? timeBlocks.find(tb => tb.id === lastId) : null;
+      setCurrentTimer(found || timeBlocks[0]);
     }
   }, [timeBlocks, setTimeBlocks, currentTimer]);
 
@@ -63,9 +67,10 @@ const HomePage: React.FC = observer(() => {
             strategy={verticalListSortingStrategy}
           >
             <TimeBoxButtons
-              onTimeBoxClick={(timeBlock) => {
+              onTimeBoxClick={async (timeBlock) => {
                 console.log("TimeBox clicked:", timeBlock);
                 setCurrentTimer(timeBlock);
+                await settingsStore.setLastSelectedTimeBlockId(timeBlock.id);
                 console.log("Current Timer after click:", timeBlock);
               }}
               isDragEnabled={settingsStore.isDragEnabled}

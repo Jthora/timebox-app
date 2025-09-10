@@ -15,7 +15,7 @@ export const formatHMS = (seconds: number): string => {
 export const formatDurationLabel = (seconds: number): string => {
   const hours = seconds / 3600;
   if (hours >= 1) {
-    return hours % 1 === 0 ? `${hours} hr${hours === 1 ? '' : 's'}` : `${hours.toFixed(1)} hrs`;
+  return hours % 1 === 0 ? `${hours} hr${hours === 1 ? '' : 's'}` : `${hours.toFixed(1)} hrs`;
   }
   const mins = Math.round(seconds / 60);
   return `${mins} min${mins === 1 ? '' : 's'}`;

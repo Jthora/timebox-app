@@ -9,11 +9,14 @@ interface TimeBoxProps {
   onClick: () => void;
   isDragEnabled: boolean;
   active?: boolean;
+  tabIndex?: number;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
+  refCallback?: (el: HTMLButtonElement | null) => void;
 }
 
 import { formatDurationLabel, formatHMS } from "../../utils/timeFormatter";
 
-const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled, active = false }) => {
+const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled, active = false, tabIndex = -1, onKeyDown, refCallback }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
   const [isDragging, setIsDragging] = useState(false);
 
@@ -47,7 +50,13 @@ const TimeBox: React.FC<TimeBoxProps> = ({ id, time, onClick, isDragEnabled, act
       onMouseUp={handleMouseUp}
       onDragStart={handleDragStart}
     >
-      <button>
+      <button
+        tabIndex={tabIndex}
+        onKeyDown={onKeyDown}
+        aria-pressed={active}
+        aria-label={`Time block ${formatLabel(time)} ${formatTime(time)}`}
+        ref={refCallback || undefined}
+      >
   <h2>{formatLabel(time)}</h2>
   <p>{formatTime(time)}</p>
       </button>
