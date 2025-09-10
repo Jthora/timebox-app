@@ -1,12 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "time-boxing-app/package.json",
-      "use": "@vercel/static-build",
-      "config": { "distDir": "dist" }
-    }
-  ],
+  "framework": "vite",
+  "installCommand": "npm ci --prefix time-boxing-app",
+  "buildCommand": "npm run build --prefix time-boxing-app",
+  "outputDirectory": "time-boxing-app/dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
