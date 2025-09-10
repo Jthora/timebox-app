@@ -7,8 +7,10 @@
   color: var(--text-color);
   height: calc(100vh - 100px); /* Compensate for the height of the Header */
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* left list, right timer */
+  grid-template-rows: 1fr;
+  gap: 16px;
   position: relative;
 }
 
@@ -17,15 +19,7 @@
   z-index: 10; /* Ensure Header is above other elements */
 }
 
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
+.content { display: contents; }
 
 .current-time {
   position: absolute;
@@ -37,25 +31,25 @@
 }
 
 .time-boxes {
+  grid-column: 1;
+  grid-row: 1;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start; /* Align to the left */
-  left: 0;
-  z-index: 0; /* Higher z-index */
-  width: 33%; /* Allow horizontal expansion */
+  align-content: flex-start;
+  justify-content: flex-start;
+  padding: 16px 24px;
+  overflow: auto;
 }
 
 .timer-display {
+  grid-column: 2;
+  grid-row: 1;
   text-align: center;
-  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  padding-right: 24px;
 }
 
 .timer-display h1 {
