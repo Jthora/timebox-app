@@ -1,0 +1,89 @@
+@import '../../styles/variables.css';
+
+.content {
+    width: min(100%, var(--max-content-width));
+    margin: 0 auto;
+    height: calc(100svh - var(--header-height));
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: var(--space-lg);
+    padding: clamp(0.75rem, 2vh, var(--space-lg)) clamp(1rem, 3vw, var(--space-xl));
+    overflow: hidden;
+}
+
+.left-section,
+.right-section {
+    background: linear-gradient(170deg, rgba(18, 28, 52, 0.96), rgba(10, 18, 34, 0.92));
+    border-radius: var(--radius-lg);
+    box-shadow: var(--elevation-md);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    min-height: 0;
+}
+
+.right-section {
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.right-section h2 {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+    color: var(--primary-color);
+}
+
+.right-section p {
+    margin: var(--space-2xs) 0 0;
+    color: var(--text-muted);
+    font-size: clamp(0.95rem, 1vw, 1.05rem);
+}
+
+.right-section button {
+    align-self: flex-end;
+    padding: var(--space-2xs) var(--space-md);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 91, 91, 0.35);
+    background: rgba(255, 91, 91, 0.12);
+    color: var(--danger-color);
+    font-size: clamp(1rem, 1.1vw, 1.1rem);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.right-section button:hover,
+.right-section button:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 0 16px rgba(255, 91, 91, 0.4);
+}
+
+@media (max-width: 1024px) {
+    .content {
+        height: auto;
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+    }
+
+    .right-section {
+        align-items: stretch;
+    }
+
+    .right-section button {
+        align-self: stretch;
+    }
+}
+
+@media (max-width: 640px) {
+    .content {
+        padding: var(--space-md);
+        height: auto;
+    }
+
+    .left-section,
+    .right-section {
+        padding: var(--space-md);
+        border-radius: var(--radius-md);
+        min-height: auto;
+    }
+}

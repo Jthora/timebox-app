@@ -1,0 +1,113 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  padding: 0 var(--space-lg);
+  min-height: var(--header-height);
+  background: rgba(2, 6, 15, 0.92);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex: 1 1 auto;
+  min-width: 220px;
+}
+
+.logoLink {
+  display: inline-flex;
+  border-radius: var(--radius-sm);
+  padding: 0;
+  transition: transform 0.2s ease, filter 0.25s ease;
+}
+
+.logoLink:hover,
+.logoLink:focus-visible {
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.35));
+}
+
+.logo {
+  height: clamp(52px, 7vw, 84px);
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+
+.title {
+  font-size: clamp(1.25rem, 2.2vw, 2rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-xs);
+  flex-wrap: wrap;
+  flex: 1 1 auto;
+  min-width: 240px;
+}
+
+.nav-button {
+  min-width: clamp(96px, 12vw, 140px);
+  padding: var(--space-2xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(0, 212, 255, 0.22);
+  background: linear-gradient(145deg, rgba(28, 63, 63, 0.82), rgba(12, 27, 43, 0.82));
+  color: var(--primary-color);
+  font-size: clamp(0.8rem, 1vw, 1rem);
+  transition: transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-button:hover,
+.nav-button:focus-visible {
+  transform: translateY(-2px);
+  box-shadow: var(--hover-glow);
+  border-color: rgba(0, 212, 255, 0.5);
+}
+
+@media (max-width: 900px) {
+  .header {
+    position: relative;
+    padding: 0 var(--space-md);
+    min-height: var(--header-height);
+  }
+
+  .right-section {
+    justify-content: flex-start;
+    gap: var(--space-2xs);
+  }
+
+  .nav-button {
+    min-width: clamp(88px, 24vw, 130px);
+  }
+}
+
+@media (max-width: 620px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+    padding: 0 var(--space-sm);
+  }
+
+  .left-section,
+  .right-section {
+    width: 100%;
+  }
+
+  .right-section {
+    justify-content: flex-start;
+  }
+}

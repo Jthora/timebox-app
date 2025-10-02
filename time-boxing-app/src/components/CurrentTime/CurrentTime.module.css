@@ -1,9 +1,0 @@
-
-.currentTime {
-    position: absolute;
-    z-index: 0; /* Ensure it is above other elements */
-    background-color: rgba(255, 255, 255, 0.1); /* Optional: Add background for better visibility */
-    padding: 5px; /* Optional: Add padding for better appearance */
-    border-radius: 5px; /* Optional: Add border radius for better appearance */
-    top: 20px; /* Adjust as needed */
-}

@@ -1,9 +1,9 @@
 {
   "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
   "framework": "vite",
-  "installCommand": "npm ci --prefix time-boxing-app",
-  "buildCommand": "npm run build --prefix time-boxing-app",
-  "outputDirectory": "time-boxing-app/dist",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]

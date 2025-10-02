@@ -1,0 +1,13 @@
+.currentTime {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    padding: var(--space-2xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 212, 255, 0.12);
+    border: 1px solid rgba(0, 212, 255, 0.35);
+    color: var(--primary-color);
+    font-size: clamp(0.85rem, 1vw, 1rem);
+    letter-spacing: 0.04em;
+    font-family: var(--font-primary);
+}

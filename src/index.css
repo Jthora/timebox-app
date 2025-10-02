@@ -1,0 +1,65 @@
+@import './styles/variables.css';
+
+html {
+  font-size: clamp(15px, 1.1vw + 0.5rem, 20px);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-secondary);
+  font-weight: var(--body-weight);
+  line-height: 1.5;
+  background: radial-gradient(circle at top, rgba(0, 212, 255, 0.08), transparent 55%),
+              radial-gradient(circle at bottom, rgba(179, 0, 255, 0.08), transparent 50%),
+              var(--background-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.App {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  font-weight: 500;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--accent-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-primary);
+  font-weight: var(--heading-weight);
+  margin: 0;
+}
+
+button {
+  font-family: var(--font-primary);
+}

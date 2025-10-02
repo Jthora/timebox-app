@@ -1,0 +1,63 @@
+.timer-log-container {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.timer-log-sub-container {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.timer-log {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    padding: var(--space-sm) var(--space-md);
+    background: linear-gradient(165deg, rgba(23, 40, 66, 0.9), rgba(12, 24, 44, 0.92));
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(0, 212, 255, 0.12);
+    box-shadow: var(--elevation-sm);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.timer-log h3 {
+    margin: 0 0 var(--space-xs);
+    font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+    color: var(--primary-color);
+}
+
+.timer-log ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+}
+
+.timer-log li {
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    font-size: clamp(0.9rem, 1vw, 1rem);
+}
+
+.timer-log li:nth-child(odd) {
+    background: rgba(0, 0, 0, 0.28);
+}
+
+.timer-log-empty {
+    margin: auto;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: clamp(0.95rem, 1vw, 1.05rem);
+}

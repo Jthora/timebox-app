@@ -9,12 +9,9 @@ To install and run the Timebox App locally, follow these steps:
 1. Clone the repository:
     ```bash
     git clone https://github.com/jthora/timebox-app.git
+    cd timebox-app
     ```
-2. Navigate to the project directory:
-    ```bash
-    cd timebox-app/time-boxing-app
-    ```
-3. Install the dependencies:
+2. Install the dependencies:
     ```bash
     npm install
     ```
@@ -25,4 +22,28 @@ To start the application, run:
 npm run dev
 ```
 Open your browser and navigate to `http://localhost:5173` to use the Timebox App.
+
+## Project Structure (Flattened)
+
+```
+src/
+    assets/
+    components/
+    context/
+    hooks/
+    pages/
+    routes/
+    store/
+    styles/
+    types/
+    utils/
+    __tests__/
+public/
+vite.config.ts
+tsconfig*.json
+jest.config.js
+vercel.json
+```
+
+The previous nested `time-boxing-app/` directory has been removed; all runtime and build configuration now lives at the repository root.
 

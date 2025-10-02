@@ -1,0 +1,32 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    min-height: 0;
+    flex: 1 1 auto;
+}
+
+.time-box-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-sm);
+    align-content: flex-start;
+    padding: var(--space-md);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 212, 255, 0.4) transparent;
+    max-height: 100%;
+}
+
+.time-box-buttons::-webkit-scrollbar {
+    width: 6px;
+}
+
+.time-box-buttons::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--primary-color), rgba(0, 212, 255, 0.45));
+    border-radius: 999px;
+}
+
+.time-box-buttons::-webkit-scrollbar-track {
+    background: transparent;
+}
